@@ -3,11 +3,11 @@ import 'package:todo/model/carousel_task.dart';
 import 'package:todo/widget/progress_todo_list.dart';
 import 'package:todo/widget/title_todo_list.dart';
 
-class CarouselItemList extends StatelessWidget {
+class InfoCarousel extends StatelessWidget {
   final CarouselTask task;
   final int index;
 
-  const CarouselItemList({
+  const InfoCarousel({
     Key? key,
     required this.task,
     required this.index,

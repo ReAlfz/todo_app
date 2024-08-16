@@ -31,7 +31,7 @@ class HomeScreen extends HookConsumerWidget {
               flex: 8,
               fit: FlexFit.tight,
               child: CarouselSlider(
-                items: ref.read(carouselListProvider.notifier).getCard(context),
+                items: ref.watch(carouselListProvider.notifier).getCard(context),
                 options: CarouselOptions(
                   aspectRatio: 16 / 9,
                   height: min(size.width, size.height) - 115,

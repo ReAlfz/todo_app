@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo/model/carousel_task.dart';
 import 'package:todo/model/task.dart';
 import 'package:todo/screen/detail.dart';
-import 'package:todo/widget/carousel_item_list.dart';
+import 'package:todo/widget/info_carousel.dart';
 
 final carouselListProvider = StateNotifierProvider<CarouselFunction, List<CarouselTask>>((ref) {
   return CarouselFunction([
@@ -39,12 +39,12 @@ class CarouselFunction extends StateNotifier<List<CarouselTask>>{
   List<Widget> getCard(context) {
     return List.generate(state.length, (index) {
       return GestureDetector(
-        child: CarouselItemList(task: state[index], index: index),
+        child: InfoCarousel(task: state[index], index: index),
         onTap: () {
           Navigator.of(context).push(
             PageRouteBuilder(
               pageBuilder: (context, animation, secondaryAnimation) {
-                return DetailScreen(task: state[index], index: index);
+                return DetailScreen(index: index);
               },
               transitionDuration: const Duration(milliseconds: 800),
               reverseTransitionDuration: const Duration(milliseconds: 800),
