@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo/model/carousel_task.dart';
+import 'package:todo/model/task.dart';
+import 'package:todo/state/carousel_function.dart';
 
 class TitleToDoList extends StatelessWidget {
-  const TitleToDoList({super.key, required this.task, required this.index});
-  final CarouselTask task;
+  const TitleToDoList({super.key, required this.ref, required this.index});
+  final WidgetRef ref;
   final int index;
 
   @override
@@ -16,7 +19,7 @@ class TitleToDoList extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              task.text,
+              ref.watch(carouselListProvider)[index].text,
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 color: Colors.black,
                 fontSize: 20,
@@ -25,7 +28,7 @@ class TitleToDoList extends StatelessWidget {
             ),
 
             Text(
-              '${task.list.length} items',
+              '${ref.watch(carouselListProvider)[index].list.length} items',
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 color: Colors.black,
                 fontSize: 14,

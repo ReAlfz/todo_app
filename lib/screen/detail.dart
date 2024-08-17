@@ -8,14 +8,14 @@ import 'package:todo/widget/progress_todo_list.dart';
 import 'package:todo/widget/title_todo_list.dart';
 
 class DetailScreen extends HookConsumerWidget {
-  const DetailScreen({Key? key, required this.index}) : super(key: key);
-  final int index;
+  const DetailScreen({Key? key, required this.mIndex}) : super(key: key);
+  final int mIndex;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final opacity = useState(1.0);
     final size = MediaQuery.of(context).size;
-    final task = ref.watch(carouselListProvider)[index];
+    final task = ref.watch(carouselListProvider)[mIndex];
 
     var controller = useAnimationController(
       duration: const Duration(milliseconds: 1200),
@@ -41,7 +41,7 @@ class DetailScreen extends HookConsumerWidget {
     return Stack(
       children: [
         Hero(
-          tag: 'task_bg_$index',
+          tag: 'task_bg_$mIndex',
           child: Container(
             color: Colors.white,
           ),
@@ -53,7 +53,7 @@ class DetailScreen extends HookConsumerWidget {
           child: Scaffold(
             appBar: AppBar(
               leading: Hero(
-                tag: 'task_back_$index',
+                tag: 'task_back_$mIndex',
                 child: IconButton(
                   icon: const Icon(
                     Icons.arrow_back_ios_new_rounded,
@@ -69,7 +69,7 @@ class DetailScreen extends HookConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: Hero(
-                    tag: 'task_menu_$index',
+                    tag: 'task_menu_$mIndex',
                     child: const Icon(
                       Icons.more_vert,
                       color: Colors.lightBlue,
@@ -86,7 +86,7 @@ class DetailScreen extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Hero(
-                    tag: 'task_icon_$index',
+                    tag: 'task_icon_$mIndex',
                     child: Container(
                       width: 42,
                       height: 42,
@@ -104,12 +104,14 @@ class DetailScreen extends HookConsumerWidget {
 
                   const SizedBox(height: 50),
 
-                  TitleToDoList(task: task, index: index),
-                  ProgressToDoList(task: task, index: index),
+                  TitleToDoList(ref: ref, index: mIndex),
+                  ProgressToDoList(ref: ref, index: mIndex),
 
                   ListView.builder(
                     itemCount: task.list.length,
                     shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return AnimatedBuilder(
                         animation: animation,
@@ -124,9 +126,29 @@ class DetailScreen extends HookConsumerWidget {
                         },
 
                         child: Container(
-                          color: Colors.red,
-                          height: 20,
-                          margin: EdgeInsets.symmetric(vertical: 30),
+                          margin: const EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            children: [
+                              Checkbox(
+                                value: task.list[index].isDone,
+                                onChanged: (value) {
+                                  ref.watch(carouselListProvider.notifier).changeCheck(
+                                    idParent: task.id,
+                                    idChild: task.list[index].id,
+                                    index: mIndex,
+                                  );
+                                },
+                              ),
+
+                              Text(
+                                task.list[index].description,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },

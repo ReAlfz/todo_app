@@ -2,11 +2,11 @@ import 'package:todo/model/task.dart';
 
 class CarouselTask {
   final String id, text;
-  final List<Task> list;
+  List<Task> list;
 
-  const CarouselTask({
+  CarouselTask({
     required this.id,
     required this.text,
-    required this.list
+    required this.list,
   });
 }

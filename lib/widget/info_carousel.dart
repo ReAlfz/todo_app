@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo/model/carousel_task.dart';
 import 'package:todo/widget/progress_todo_list.dart';
 import 'package:todo/widget/title_todo_list.dart';
 
 class InfoCarousel extends StatelessWidget {
-  final CarouselTask task;
+  final WidgetRef ref;
   final int index;
 
   const InfoCarousel({
     Key? key,
-    required this.task,
+    required this.ref,
     required this.index,
   }) : super(key: key);
 
@@ -96,8 +98,8 @@ class InfoCarousel extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TitleToDoList(task: task, index: index),
-                    ProgressToDoList(task: task, index: index),
+                    TitleToDoList(ref: ref, index: index),
+                    ProgressToDoList(ref: ref, index: index),
                   ],
                 ),
               ],
