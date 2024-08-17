@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:todo/model/carousel_task.dart';
 import 'package:todo/widget/progress_todo_list.dart';
 import 'package:todo/widget/title_todo_list.dart';
 

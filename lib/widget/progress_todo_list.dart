@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:todo/model/carousel_task.dart';
-import 'package:todo/model/task.dart';
 import 'package:todo/state/carousel_function.dart';
 
 class ProgressToDoList extends StatelessWidget {
