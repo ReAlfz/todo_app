@@ -3,78 +3,92 @@ import 'package:todo/model/carousel_task.dart';
 import 'package:todo/model/task.dart';
 import 'package:uuid/uuid.dart';
 
-final taskListProvider = StateNotifierProvider<InsideState, List<Task>>((ref) {
-  return InsideState(const [
-    Task(id: '0', description: 'Hello there')
+final listProvider = StateNotifierProvider<Provider, List<CarouselTask>>((ref) {
+  return Provider([
+    CarouselTask(
+      id: '0',
+      text: 'healing',
+      list: [
+        const Task(id: '0', description: 'Hello therezzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz', isDone: true),
+        const Task(id: '1', description: 'Hello there', isDone: false),
+        const Task(id: '2', description: 'Hello there', isDone: false),
+      ],
+    ),
+
+    CarouselTask(
+        id: '1',
+        text: 'workout',
+        list: [
+          const Task(id: '1', description: 'Hello there')
+        ]
+    ),
+
+    CarouselTask(
+        id: '2',
+        text: 'Study',
+        list: []
+    ),
   ]);
 });
 
-enum TaskFilter {
-  all,
-  active,
-  completed
-}
+class Provider extends StateNotifier<List<CarouselTask>>{
+  Provider(List<CarouselTask>? initialData) : super(initialData ?? []);
 
-const _uuid = Uuid();
-final taskListFilter = StateProvider((ref) => TaskFilter.all);
-final filteredTask = Provider<List<Task>>((ref) {
-  final filter = ref.watch(taskListFilter);
-  final task = ref.watch(taskListProvider);
-
-  switch (filter) {
-    case TaskFilter.completed:
-      return task.where((task) => task.isDone).toList();
-    case TaskFilter.active:
-      return task.where((task) => !task.isDone).toList();
-    case TaskFilter.all:
-      return task;
-  }
-});
-
-final unCompleteTask = Provider<int>((ref) {
-  return ref.watch(taskListProvider).where((task) => !task.isDone).length;
-});
-
-class InsideState extends StateNotifier<List<Task>> {
-  InsideState([List<Task>? initialData]) : super(initialData ?? []);
-
-  void add(String description) {
-    state = [
-      ...state,
-      Task(
-        id: _uuid.v4(),
-        description: description,
-      ),
-    ];
+  double getLinear(int index) {
+    if (state[index].list.isEmpty) {
+      return 0;
+    }
+    int result = state[index].list.where((task) => task.isDone).length;
+    return result / state[index].list.length;
   }
 
-  void toggle(String id) {
-    final newState = [...state];
-    final replaceIndex = state.indexWhere((task) => task.id == id);
-
-    if (replaceIndex != -1) {
-      newState[replaceIndex] = Task(
-        id: newState[replaceIndex].id,
-        description: newState[replaceIndex].description,
-        isDone: !newState[replaceIndex].isDone,
-      );
+  String getPercentText(int index) {
+    if (state[index].list.isEmpty) {
+      return '0%';
     }
 
+    int result = state[index].list.where((task) => task.isDone).length;
+    return '${((result / state[index].list.length) * 100).round()}%';
+  }
+
+  void addInfoTask({required String title}) {
+    state.add(
+        CarouselTask(
+          id: const Uuid().v4(),
+          text: title,
+          list: [],
+        ),
+    );
+  }
+
+  void removeInfoTask({required String id}) {
+    final newState = [...state];
+    newState.removeWhere((element) => element.id == id);
     state = newState;
   }
 
-  void edit({required String id, required String description}) {
-    final newState = [...state];
-    final replaceIndex = state.indexWhere((task) => task.id == id);
+  // Function for list item
+  void changeCheck({required String idParent, required String idChild}) {
+    final newCarousel = [...state];
+    final getCarouselIndex = state.indexWhere((element) => element.id == idParent);
+    final replaceIndex = state[getCarouselIndex].list.indexWhere((element) => element.id == idChild);
+    final newState = newCarousel[getCarouselIndex].list;
 
     if (replaceIndex != -1) {
       newState[replaceIndex] = Task(
-        id: newState[replaceIndex].id,
-        description: description,
-        isDone: newState[replaceIndex].isDone,
+          id: newState[replaceIndex].id,
+          description: newState[replaceIndex].description,
+          isDone: !newState[replaceIndex].isDone
       );
     }
 
-    state = newState;
+    state = newCarousel;
+  }
+
+  void removeListTask({required String idParent, required String idChild}) {
+    final newCarousel = [...state];
+    final getCarouselIndex = state.indexWhere((element) => element.id == idParent);
+    newCarousel[getCarouselIndex].list.removeWhere((element) => element.id == idChild);
+    state = newCarousel;
   }
 }
