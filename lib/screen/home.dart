@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo/screen/detail.dart';
 import 'package:todo/state/provider.dart';
-import 'package:todo/screen/create_info_task.dart';
 import 'package:todo/widget/float_button.dart';
 import 'package:todo/widget/info_carousel.dart';
 
