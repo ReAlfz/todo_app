@@ -85,6 +85,15 @@ class Provider extends StateNotifier<List<CarouselTask>>{
     state = newCarousel;
   }
 
+  void addListTask({required int index, required String text}) {
+    state[index].list.add(
+      Task(
+        id: const Uuid().v4(),
+        description: text,
+      )
+    );
+  }
+
   void removeListTask({required String idParent, required String idChild}) {
     final newCarousel = [...state];
     final getCarouselIndex = state.indexWhere((element) => element.id == idParent);

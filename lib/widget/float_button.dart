@@ -1,40 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:todo/screen/create_task.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:todo/screen/create_info_task.dart';
 
-class FloatButton extends StatelessWidget {
-  const FloatButton({super.key});
+class FloatButton extends HookConsumerWidget {
+  final bool code;
+  final int index;
+  const FloatButton({super.key, required this.code, required this.index});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller = useTextEditingController();
     return FloatingActionButton(
       heroTag: 'fab',
       onPressed: () {
-        Navigator.of(context).push(
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) {
-              return const CreateTask();
-            },
-
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              return SlideTransition(
-                position: animation.drive(
-                    Tween(
-                      begin: const Offset(0.0, 1.0), 
-                      end: const Offset(0.0, 0.0),
-                    ).chain(CurveTween(curve: Curves.easeInOut))
-                ),
-                child: child,
-              );
-            },
-            transitionDuration: const Duration(milliseconds: 500),
-            reverseTransitionDuration: const Duration(milliseconds: 500),
-          ),
-        );
+        showTaskDialog(context, ref, controller, index, code);
       },
       backgroundColor: Colors.lightBlue,
       child: const Icon(
         Icons.add,
         color: Colors.black,
+        size: 30,
       ),
     );
   }

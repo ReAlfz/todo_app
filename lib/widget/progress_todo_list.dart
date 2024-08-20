@@ -18,7 +18,7 @@ class ProgressToDoList extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              ref.watch(listProvider.notifier).getPercentText(index),
+              ref.read(listProvider.notifier).getPercentText(index),
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 color: Colors.black,
                 fontSize: 14,
@@ -35,20 +35,11 @@ class ProgressToDoList extends StatelessWidget {
             margin: const EdgeInsets.only(top: 12, bottom: 10),
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
-              child: TweenAnimationBuilder(
-                tween: Tween<double>(
-                  begin: 0.0,
-                  end: ref.watch(listProvider.notifier).getLinear(index),
-                ),
-                duration: const Duration(milliseconds: 500),
-                builder: (context, value, child) {
-                  return LinearProgressIndicator(
-                    valueColor: const AlwaysStoppedAnimation(Colors.amber),
-                    value: value,
-                    backgroundColor: const Color.fromRGBO(224, 224, 224, 1),
-                  );
-                },
-              ),
+              child: LinearProgressIndicator(
+                valueColor: const AlwaysStoppedAnimation(Colors.amber),
+                value: ref.read(listProvider.notifier).getLinear(index),
+                backgroundColor: const Color.fromRGBO(224, 224, 224, 1),
+              )
             ),
           ),
         ),

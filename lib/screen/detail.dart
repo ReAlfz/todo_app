@@ -132,7 +132,7 @@ class DetailScreen extends HookConsumerWidget {
             ),
 
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-            floatingActionButton: const FloatButton(),
+            floatingActionButton: FloatButton(code: false, index: mIndex),
           ),
         ),
       ],

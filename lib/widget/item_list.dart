@@ -58,9 +58,11 @@ class ItemListTask extends StatelessWidget {
               fit: FlexFit.tight,
               child: Text(
                 task.list[index].description,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
-                  color: Colors.black,
+                  color: (task.list[index].isDone) ? Colors.grey : Colors.black,
+                  decoration: (task.list[index].isDone)
+                      ? TextDecoration.lineThrough : TextDecoration.none,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
