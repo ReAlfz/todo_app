@@ -1,16 +1,16 @@
-# todo
+# ToDo Project
 
-To Do project
+Todo project by applying the riverpod provider and simple animation
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+- riverpod: ^2.3.0
+- hooks_riverpod: ^2.3.0
+- flutter_hooks: ^0.20.5
+- carousel_slider: ^5.0.0
+- uuid: ^4.0.0
 
-A few resources to get you started if this is your first Flutter project:
+this project requires the above library, it doesn't matter if the library version is different from this project.
+Here's a preview of the application result
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![image](preview.gif)
